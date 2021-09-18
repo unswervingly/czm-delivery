@@ -5,13 +5,18 @@
       src="http://www.dell-lee.com/imgs/vue3/user.png"
     />
     <div class="wrapper__input">
-      <input class="wrapper__input__content" placeholder="请输入手机号" />
+      <input
+        class="wrapper__input__content"
+        placeholder="请输入用户名"
+        v-model="username"
+      />
     </div>
     <div class="wrapper__input">
       <input
         class="wrapper__input__content"
         placeholder="请输入密码"
         type="password"
+        v-model="password"
       />
     </div>
     <div class="wrapper__input">
@@ -19,28 +24,45 @@
         class="wrapper__input__content"
         placeholder="确认密码"
         type="password"
+        v-model="ensnarement"
       />
     </div>
-    <div class="wrapper__register-button">注册</div>
+    <div class="wrapper__register-button" @click="handleRegister">注册</div>
     <div class="wrapper__register-link" @click="handleLoginClick">
       已有账号去登陆
     </div>
+
+    <toast v-if="showToast" :message="toastMessage" />
   </div>
 </template>
 
 <script>
-import { useRouter } from "vue-router";
+import Toast, { useToastEffect } from "../../components/Toast.vue";
+import { useRegisterEffect } from "./hooks/useRegisterEffect";
+import { useToLoginEffect } from "./hooks/useToLoginEffect";
 
 export default {
   name: "Register",
+  components: {
+    Toast,
+  },
   setup() {
-    const router = useRouter();
+    const { showToast, toastMessage, changeShowToast } = useToastEffect();
 
-    const handleLoginClick = () => {
-      router.push({ name: "Login" });
+    const { username, password, ensnarement, handleRegister } =
+      useRegisterEffect(changeShowToast);
+
+    const { handleLoginClick } = useToLoginEffect();
+
+    return {
+      showToast,
+      toastMessage,
+      username,
+      password,
+      ensnarement,
+      handleRegister,
+      handleLoginClick,
     };
-
-    return { handleLoginClick };
   },
 };
 </script>

@@ -43,7 +43,7 @@ export default {
   width: 100%;
   height: 0.49rem;
   padding: 0 0.18rem;
-  border-top: 0.01rem solid #f1f1f1;
+  border-top: 0.01rem solid $content-bgColor;
   color: $content-fontcolor;
   /* background: pink; */
 

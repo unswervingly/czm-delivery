@@ -1,53 +1,54 @@
 <template>
   <div class="nearby">
-    <h3 class="nearby__title">附近店铺</h3>
-    <div class="nearby__item" v-for="item in nearbyList" :key="item.id">
-      <img :src="item.src" class="nearby__item__img" />
-      <div class="nearby__content">
-        <div class="nearby__content__title">{{ item.title }}</div>
-        <div class="nearby__content__tags">
-          <span
-            class="nearby__content__tag"
-            v-for="(innerItem, innerIndex) in item.tags"
-            >{{ innerItem }}</span
-          >
-        </div>
-        <p class="nearby__content__highlight">{{ item.desc }}</p>
-      </div>
-    </div>
+    <h3 class="nearby__title">附近店铺 {{ counterIndex }}</h3>
+
+    <shop-info
+      v-for="(item, index) in nearbyList"
+      :key="item._id"
+      :shopItem="item"
+      @click="handleShop(index, item)"
+    />
   </div>
 </template>
 
 <script>
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+
+import ShopInfo from "../../components/ShopInfo.vue";
+
+import { useNearbyListEffect } from "./hooks/useNearbyListEffect";
+
 export default {
   name: "Nearby",
+  components: {
+    ShopInfo,
+  },
   setup() {
-    const nearbyList = [
-      {
-        id: 1,
-        src: "http://www.dell-lee.com/imgs/vue3/near.png",
-        title: "永辉超市",
-        tags: ["月售1万+", "起送￥0", "基础运费￥5"],
-        desc: "VIP尊享满89元减4元运费券（每月3张）",
-      },
-      {
-        id: 2,
-        src: "http://www.dell-lee.com/imgs/vue3/near.png",
-        title: "古茗",
-        tags: ["月售6千+", "起送￥10", "基础运费￥5"],
-        desc: "VIP尊享满32元减6元运费券（每月5张）",
-      },
-      {
-        id: 3,
-        src: "http://www.dell-lee.com/imgs/vue3/near.png",
-        title: "KFC",
-        tags: ["月售8千+", "起送￥30", "基础运费￥5"],
-        desc: "VIP尊享满40元减6元运费券（每月4张）",
-      },
-    ];
+    const { nearbyList, getNearbyList } = useNearbyListEffect();
+    getNearbyList();
+
+    const router = useRouter();
+    let counterIndex = ref(1);
+
+    const handleShop = (index, item) => {
+      counterIndex.value = index + 1;
+
+      console.log(counterIndex.value);
+      console.log(item._id);
+      if (counterIndex.value == item._id) {
+        // 可以使用 name和params跳转动态路由
+        // router.push({ name: "Shop", params: { id: item._id } });
+
+        // router.push({ name: "Shop", params: item });
+        router.push({ path: `/shop/${item._id}`, query: item });
+      }
+    };
 
     return {
       nearbyList,
+      counterIndex,
+      handleShop,
     };
   },
 };
@@ -63,40 +64,6 @@ export default {
     font-size: 0.18rem;
     font-weight: normal;
     color: $content-fontcolor;
-  }
-  &__item {
-    display: flex;
-    padding-top: 0.12rem;
-    &__img {
-      margin-right: 0.16rem;
-      width: 0.56rem;
-      height: 0.56rem;
-    }
-  }
-  &__content {
-    flex: 1;
-    padding-bottom: 0.12rem;
-    border-bottom: 1px solid $content-bgColor;
-    &__title {
-      line-height: 0.22rem;
-      font-size: 0.16rem;
-      color: $content-fontcolor;
-    }
-    &__tags {
-      margin-top: 0.08rem;
-      line-height: 0.18rem;
-      font-size: 0.13rem;
-      color: $content-fontcolor;
-    }
-    &__tag {
-      margin-right: 0.16rem;
-    }
-    &__highlight {
-      margin: 0.08rem 0 0 0;
-      line-height: 0.18rem;
-      font-size: 0.13rem;
-      color: #e93b3b;
-    }
   }
 }
 </style>

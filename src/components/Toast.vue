@@ -3,8 +3,28 @@
 </template>
 
 <script>
+import { ref } from "vue";
+
 export default {
   props: ["message"],
+};
+
+export const useToastEffect = () => {
+  const showToast = ref(false);
+  const toastMessage = ref("");
+
+  // 登录失败后的展示的组件
+  const changeShowToast = (message) => {
+    showToast.value = true;
+    toastMessage.value = message;
+
+    setTimeout(() => {
+      showToast.value = false;
+      toastMessage.value = "";
+    }, 2000);
+  };
+
+  return { showToast, toastMessage, changeShowToast };
 };
 </script>
 

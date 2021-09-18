@@ -5,30 +5,37 @@ const routes = [
     // 首页
     path: '/',
     name: 'Home',
-    component: () => import("../views/home/Home.vue"),
+    component: () => import(/* webpackChunkName: "Home"*/ "../views/home/Home.vue"),
   },
   {
-    // 注册页面
-    path: '/register',
-    name: 'Register',
-    component: () => import("../views/register/Register.vue"),
-    beforeEnter: (to, from, next) => {
-      const { isLogin } = localStorage;
-      isLogin ? next({ name: "Home" }) : next()
-
-    }
+    // 商家详情
+    path: '/shop/:id',
+    name: 'Shop',
+    component: () => import(/* webpackChunkName: "Shop"*/ "../views/shop/Shop.vue"),
   },
   {
     // 登录页面
     path: '/login',
     name: 'Login',
-    component: () => import("../views/login/Login.vue"),
+    component: () => import(/* webpackChunkName: "Login"*/ "../views/login/Login.vue"),
     beforeEnter: (to, from, next) => {
       const { isLogin } = localStorage;
       isLogin ? next({ name: "Home" }) : next()
 
     }
   },
+  {
+    // 注册页面
+    path: '/register',
+    name: 'Register',
+    component: () => import(/* webpackChunkName: "Register"*/  "../views/register/Register.vue"),
+    beforeEnter: (to, from, next) => {
+      const { isLogin } = localStorage;
+      isLogin ? next({ name: "Home" }) : next()
+
+    }
+  },
+
 ]
 
 const router = createRouter({
@@ -41,7 +48,7 @@ router.beforeEach((to, from, next) => {
   const isLoginOrRegister = (to.name === 'Login' || to.name === 'Register');
 
   (isLogin || isLoginOrRegister) ? next() : next({ name: 'Login' })
-  next()
+  // next()
 })
 
 export default router

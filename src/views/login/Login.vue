@@ -27,14 +27,16 @@
 </template>
 
 <script>
-import { ref } from "vue";
-import { useRouter } from "vue-router";
+// import { ref } from "vue";
+// import { useRouter } from "vue-router";
 // import axios from "axios";
 // 设置首页axios 是"Content-Type"方法
 // axios.defaults.headers.post["Content-Type"] = "application/json";
-import { czm_post } from "../../utils/requst";
+// import { czm_post } from "../../utils/request";
 
-import Toast from "../../components/Toast.vue";
+import Toast, { useToastEffect } from "../../components/Toast.vue";
+import { useLoginEffect } from "./hooks/useLoginEffect";
+import { useToRegisterEffect } from "./hooks/useToRegisterEffect";
 
 export default {
   name: "Login",
@@ -42,12 +44,8 @@ export default {
     Toast,
   },
   setup() {
-    const router = useRouter();
-
-    const username = ref("");
-    const password = ref("");
-    const showToast = ref(false);
-    const toastMessage = ref("");
+    const { showToast, toastMessage, changeShowToast } = useToastEffect();
+    const { username, password, handleLogin } = useLoginEffect(changeShowToast);
 
     /* const handleLogin = () => {
       axios
@@ -65,43 +63,10 @@ export default {
         .catch(() => {
           alert("登陆失败");
         });
-    }; */
+    }; 
+    */
 
-    // 封装axios
-    const changeShowToast = (message) => {
-      showToast.value = true;
-      toastMessage.value = message;
-
-      setTimeout(() => {
-        showToast.value = false;
-        toastMessage.value = "";
-      }, 2000);
-    };
-
-    const handleLogin = async () => {
-      try {
-        const result = await czm_post("111/api/user/login", {
-          username: username.value,
-          password: password.value,
-        });
-
-        console.log(result);
-
-        if (result?.errno === 0) {
-          localStorage.isLogin = true;
-          router.push({ name: "Home" });
-        } else {
-          // alert("登陆失败");
-          changeShowToast("登陆失败");
-        }
-      } catch (e) {
-        changeShowToast("请求失败");
-      }
-    };
-
-    const handleRegister = () => {
-      router.push({ name: "Register" });
-    };
+    const { handleRegister } = useToRegisterEffect();
 
     return {
       handleLogin,

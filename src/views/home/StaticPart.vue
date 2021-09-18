@@ -17,7 +17,7 @@
       <p class="icons__item__desc">{{ item.title }}</p>
     </div>
   </div>
-  
+
   <div class="gap"></div>
 </template>
 
@@ -171,6 +171,6 @@ i {
 .gap {
   margin: 0 -0.18rem;
   height: 0.1rem;
-  background: #F1F1F1;
+  background: $content-bgColor;
 }
 </style>
