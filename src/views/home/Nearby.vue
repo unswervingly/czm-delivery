@@ -38,10 +38,21 @@ export default {
       console.log(item._id);
       if (counterIndex.value == item._id) {
         // 可以使用 name和params跳转动态路由
-        // router.push({ name: "Shop", params: { id: item._id } });
+        router.push({
+          name: "Shop",
+          params: {
+            id: item._id,
+            expressLimit: item.expressLimit,
+            expressPrice: item.expressPrice,
+            imgUrl: item.imgUrl,
+            name: item.name,
+            sales: item.sales,
+            slogan: item.slogan,
+          },
+        });
 
         // router.push({ name: "Shop", params: item });
-        router.push({ path: `/shop/${item._id}`, query: item });
+        // router.push({ path: `/shop/${item._id}`, query: item });
       }
     };
 

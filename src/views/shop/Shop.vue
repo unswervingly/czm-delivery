@@ -13,7 +13,8 @@
       :hideBorder="true"
       v-show="shopItem.imgUrl"
     />
-    <content />
+    <Content />
+    <Cart />
   </div>
 </template>
 
@@ -21,12 +22,14 @@
 import { useRoute, useRouter } from "vue-router";
 import ShopInfo from "../../components/ShopInfo.vue";
 import Content from "../shop/Content.vue";
+import Cart from "../shop/Cart.vue";
 
 export default {
   name: "Shop",
   components: {
     ShopInfo,
     Content,
+    Cart,
   },
   created() {
     console.log(this.$route);
@@ -35,8 +38,8 @@ export default {
     const route = useRoute();
     const router = useRouter();
 
-    // const shopItem = route.params;
-    const shopItem = route.query;
+    const shopItem = route.params;
+    // const shopItem = route.query;
 
     const handleBackClick = () => {
       router.back();
@@ -51,6 +54,11 @@ export default {
 @import "../../style/viriables.scss";
 
 .warpper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
   padding: 0 0.18rem;
 }
 
