@@ -34,15 +34,28 @@
             <span
               class="product__number__minus"
               @click="
-                changeCartItemInfo(shopId, productItem._id, productItem, -1)
+                changeCartItem(
+                  shopId,
+                  productItem._id,
+                  productItem,
+                  -1,
+                  shopName
+                )
               "
               >-</span
             >
-            {{ cartList?.[shopId]?.[productItem._id]?.count || 0 }}
+            <!-- {{ cartList?.[shopId]?.productList?.[productItem._id]?.count || 0 }} -->
+            {{ getProductCount(shopId, productItem._id) }}
             <span
               class="product__number__plus"
               @click="
-                changeCartItemInfo(shopId, productItem._id, productItem, 1)
+                changeCartItem(
+                  shopId,
+                  productItem._id,
+                  productItem,
+                  1,
+                  shopName
+                )
               "
               >+</span
             >
@@ -77,6 +90,7 @@ const categories = [
 
 export default {
   name: "Content",
+  props: ["shopName"],
   setup() {
     const route = useRoute();
     const shopId = route.params.id;
@@ -85,7 +99,7 @@ export default {
 
     const { contentList } = useListEffect(currentTab, shopId);
 
-    const { cartList, changeCartItemInfo } = useCartEffect();
+    const { cartList, changeCartItem, getProductCount } = useCartEffect();
 
     return {
       shopId,
@@ -96,7 +110,8 @@ export default {
       handleCategoryClick,
 
       cartList,
-      changeCartItemInfo,
+      changeCartItem,
+      getProductCount,
     };
   },
 };

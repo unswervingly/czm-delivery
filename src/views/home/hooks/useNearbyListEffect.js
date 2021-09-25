@@ -13,7 +13,6 @@ export const useNearbyListEffect = () => {
         if (result?.errno === 0 && result?.data.length) {
             nearbyList.value = result.data;
         } else {
-            // alert("登陆失败");
             changeShowToast("登陆失败");
         }
     };

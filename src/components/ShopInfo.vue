@@ -3,7 +3,7 @@
     <img :src="shopItem.imgUrl" class="shop__img" />
     <div
       class="shop__content"
-      :class="{ 'shop__content--bordered': hideBorder ? fasle : true }"
+      :class="{ 'shop__content--bordered': hideBorder ? 'fasle' : 'true' }"
     >
       <div class="shop__content__title">{{ shopItem.name }}</div>
       <div class="shop__content__tags">

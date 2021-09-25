@@ -2,11 +2,16 @@
   <div class="docker">
     <div
       v-for="(item, index) in dockerList"
-      :class="{ docker__item: true, 'docker__item--active': index === 0 }"
+      :class="{
+        docker__item: true,
+        'docker__item--active': index === currentIndex,
+      }"
       :key="item.icon"
     >
-      <div class="iconfont" v-html="item.icon"></div>
-      <div class="docker__title">{{ item.text }}</div>
+      <router-link :to="item.dockerTo" custom v-slot="props">
+        <div class="iconfont" v-html="item.icon" @click="props.navigate"></div>
+        <div class="docker__title">{{ item.text }}</div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -14,12 +19,13 @@
 <script>
 export default {
   name: "Docker",
+  props: ["currentIndex"],
   setup() {
     const dockerList = [
-      { icon: "&#xe603;", text: "首页" },
-      { icon: "&#xe65c;", text: "购物车" },
-      { icon: "&#xe612;", text: "订单" },
-      { icon: "&#xe609;", text: "我的" },
+      { icon: "&#xe603;", text: "首页", dockerTo: "/" },
+      { icon: "&#xe65c;", text: "购物车", dockerTo: "CartList" },
+      { icon: "&#xe612;", text: "订单", dockerTo: "OrderList" },
+      { icon: "&#xe609;", text: "我的", dockerTo: "Home" },
     ];
 
     return {
@@ -30,8 +36,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../../style/viriables.scss";
-@import "../../style/mixins.scss";
+@import "../style/viriables.scss";
+@import "../style/mixins.scss";
 
 /* 底部 */
 .docker {
@@ -58,7 +64,7 @@ export default {
   }
 
   .docker__item--active {
-    color: #1af4fc;
+    color: pink;
   }
 
   .docker__title {

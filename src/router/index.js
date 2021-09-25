@@ -14,6 +14,24 @@ const routes = [
     component: () => import(/* webpackChunkName: "Shop"*/ "../views/shop/Shop.vue"),
   },
   {
+    // 购物车列表页面
+    path: '/cartList',
+    name: 'CartList',
+    component: () => import(/* webpackChunkName: "CartList"*/ "../views/cartList/CartList.vue"),
+  },
+  {
+    //下单页面
+    path: '/orderConfirmation/:id',
+    name: 'OrderConfirmation',
+    component: () => import(/* webpackChunkName: "OrderConfirmation"*/ "../views/orderConfirmation/OrderConfirmation.vue"),
+  },
+  {
+    //订单列表
+    path: '/orderList',
+    name: 'OrderList',
+    component: () => import(/* webpackChunkName: "OrderList"*/ "../views/orderList/OrderList.vue"),
+  },
+  {
     // 登录页面
     path: '/login',
     name: 'Login',

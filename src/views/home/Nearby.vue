@@ -34,8 +34,6 @@ export default {
     const handleShop = (index, item) => {
       counterIndex.value = index + 1;
 
-      console.log(counterIndex.value);
-      console.log(item._id);
       if (counterIndex.value == item._id) {
         // 可以使用 name和params跳转动态路由
         router.push({

@@ -13,7 +13,7 @@
       :hideBorder="true"
       v-show="shopItem.imgUrl"
     />
-    <Content />
+    <Content :shopName="shopItem.name" />
     <Cart />
   </div>
 </template>

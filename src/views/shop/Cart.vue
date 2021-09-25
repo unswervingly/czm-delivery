@@ -1,61 +1,70 @@
 <template>
-  <div class="mask" v-show="showCart"></div>
+  <div
+    class="mask"
+    v-show="showCart && calculations.total > 0"
+    @click="handleCartShowChange"
+  ></div>
   <div class="cart">
-    <div class="product" v-show="showCart">
+    <div class="product" v-show="showCart && calculations.total > 0">
       <div class="product__header">
         <div class="product__header__all" @click="setCartItemsChecked(shopId)">
           <span
             class="product__header__icon iconfont"
-            v-html="allChecked ? '&#xe652;' : '&#xe6f7;'"
+            v-html="calculations.allChecked ? '&#xe652;' : '&#xe667;'"
           >
           </span>
           全选
         </div>
-        <div class="product__header__clear" @click="cleanCartProducts(shopId)">
-          清空购物车
+        <div class="product__header__clear">
+          <span
+            class="product__header__clear__btn"
+            @click="cleanCartProducts(shopId)"
+            >清空购物车</span
+          >
         </div>
       </div>
 
-      <template v-for="productItem in getCartList" :key="productItem._id">
-        <div class="product__item" v-if="productItem.count > 0">
-          <div
-            class="product__item__checked iconfont"
-            v-html="productItem.check ? '&#xe652;' : '&#xe6f7;'"
-            @click="changeCartItemChecked(shopId, productItem._id)"
-          ></div>
+      <div
+        class="product__item"
+        v-for="productItem in getCartList"
+        :key="productItem._id"
+      >
+        <div
+          class="product__item__checked iconfont"
+          v-html="productItem.check ? '&#xe652;' : '&#xe667;'"
+          @click="changeCartItemChecked(shopId, productItem._id)"
+        ></div>
 
-          <img class="product__item__img" :src="productItem.imgUrl" />
+        <img class="product__item__img" :src="productItem.imgUrl" />
 
-          <div class="product__item__detail">
-            <h4 class="product__item__title">{{ productItem.name }}</h4>
-            <p class="product__item__price">
-              <span class="product__item__yen">&yen;</span
-              >{{ productItem.price }}
-              <span class="product__item__origin"
-                >&yen;{{ productItem.oldPrice }}</span
-              >
-            </p>
+        <div class="product__item__detail">
+          <h4 class="product__item__title">{{ productItem.name }}</h4>
+          <p class="product__item__price">
+            <span class="product__item__yen">&yen;</span>{{ productItem.price }}
+            <span class="product__item__origin"
+              >&yen;{{ productItem.oldPrice }}</span
+            >
+          </p>
 
-            <div class="product__number">
-              <span
-                class="product__number__minus"
-                @click="
-                  changeCartItemInfo(shopId, productItem._id, productItem, -1)
-                "
-                >-</span
-              >
-              {{ productItem.count || 0 }}
-              <span
-                class="product__number__plus"
-                @click="
-                  changeCartItemInfo(shopId, productItem._id, productItem, 1)
-                "
-                >+</span
-              >
-            </div>
+          <div class="product__number">
+            <span
+              class="product__number__minus"
+              @click="
+                changeCartItemInfo(shopId, productItem._id, productItem, -1)
+              "
+              >-</span
+            >
+            {{ productItem.count || 0 }}
+            <span
+              class="product__number__plus"
+              @click="
+                changeCartItemInfo(shopId, productItem._id, productItem, 1)
+              "
+              >+</span
+            >
           </div>
         </div>
-      </template>
+      </div>
     </div>
 
     <div class="check">
@@ -64,14 +73,24 @@
           src="http://www.dell-lee.com/imgs/vue3/basket.png"
           class="check__icon__img"
         />
-        <div class="check__icon__tag">{{ total }}</div>
+        <div class="check__icon__tag">{{ calculations.total }}</div>
       </div>
 
       <div class="check__info">
-        总计：<span class="check__info__price">&yen; {{ price }}</span>
+        总计：<span class="check__info__price"
+          >&yen; {{ calculations.price }}</span
+        >
       </div>
 
-      <div class="check__btn">去结算</div>
+      <div class="check__btn" v-show="calculations.total > 0">
+        <router-link
+          :to="{ path: `/OrderConfirmation/${shopId}` }"
+          v-slot="props"
+          custom
+        >
+          <span @click="props.navigate">去结算</span>
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -88,14 +107,12 @@ export default {
       showCart,
       handleCartShowChange,
 
-      total,
-      price,
-      getCartList,
+      calculations,
 
+      getCartList,
       changeCartItemInfo,
       changeCartItemChecked,
 
-      allChecked,
       setCartItemsChecked,
       cleanCartProducts,
     } = useGetCartEffect();
@@ -106,14 +123,12 @@ export default {
       showCart,
       handleCartShowChange,
 
-      total,
-      price,
-      getCartList,
+      calculations,
 
+      getCartList,
       changeCartItemInfo,
       changeCartItemChecked,
 
-      allChecked,
       setCartItemsChecked,
       cleanCartProducts,
 
@@ -144,32 +159,37 @@ export default {
   right: 0;
   bottom: 0;
   z-index: 2;
-  background: #fff;
+  background: $bgColor;
 }
 
 .product {
   overflow-y: scroll;
   flex: 1;
-  background: #fff;
+  background: $bgColor;
   &__header {
     display: flex;
     line-height: 0.52rem;
     border-bottom: 1px solid #f1f1f1;
     font-size: 0.14rem;
-    color: #333;
+    color: $content-fontcolor;
     &__all {
       width: 0.64rem;
       margin-left: 0.18rem;
     }
     &__icon {
       display: inline-block;
-      color: #0091ff;
+      vertical-align: middle;
+      margin-right: 0.1rem;
+      color: $btn-bgColor;
       font-size: 0.2rem;
     }
     &__clear {
       flex: 1;
       margin-right: 0.16rem;
       text-align: right;
+      &__btn {
+        display: inline-block;
+      }
     }
   }
   &__item {
@@ -181,7 +201,7 @@ export default {
     &__checked {
       line-height: 0.5rem;
       margin-right: 0.2rem;
-      color: #0091ff;
+      color: $btn-bgColor;
       font-size: 0.2rem;
     }
     &__detail {
@@ -218,7 +238,7 @@ export default {
     .product__number {
       position: absolute;
       right: 0;
-      bottom: 0.12rem;
+      bottom: 0.26rem;
       &__minus,
       &__plus {
         display: inline-block;
@@ -269,7 +289,7 @@ export default {
       border-radius: 0.1rem;
       font-size: 0.12rem;
       text-align: center;
-      color: #fff;
+      color: $bgColor;
       transform: scale(0.5);
       transform-origin: left center;
     }
