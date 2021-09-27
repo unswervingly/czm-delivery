@@ -30,9 +30,11 @@
           </div>
 
           <div class="order__content__info">
-            <div class="order__content__info__price">￥36.60</div>
+            <div class="order__content__info__price">
+              ￥{{ orderListItem.totalPrice }}
+            </div>
             <div class="order__content__info__count">
-              共 {{ orderListItem.products.length }} 件
+              共 {{ orderListItem.totalNumber }} 件
             </div>
           </div>
         </div>
@@ -59,15 +61,24 @@ const useOrderList = () => {
     const result = await czm_get("/api/order");
 
     if (result?.errno === 0 && result?.data.length) {
-      // 给数据里面添加一个订单总钱数
+      // 给数据里面添加一个订单总钱数和总件数
       const orderList = result.data;
       console.log(orderList);
       orderList.forEach((order) => {
-        const products = order.products;
-        let total = 0;
+        const products = order.products || [];
+        // 总钱数
+        let totalPrice = 0;
+        // 总件数
+        let totalNumber = 0;
+
         products.forEach((productItem) => {
-          total += productItem.product.price * productItem.orderSales;
+          totalPrice += productItem.product.price * productItem.orderSales || 0;
+
+          totalNumber += productItem.orderSales || 0;
         });
+
+        order.totalPrice = totalPrice;
+        order.totalNumber = totalNumber;
       });
 
       settlementOrderList.value = result.data;

@@ -32,6 +32,24 @@ const routes = [
     component: () => import(/* webpackChunkName: "OrderList"*/ "../views/orderList/OrderList.vue"),
   },
   {
+    //用户页面
+    path: '/personalInfo',
+    name: 'PersonalInfo',
+    component: () => import(/* webpackChunkName: "PersonalInfo"*/ "../views/PersonalInfo/PersonalInfo.vue"),
+  },
+  {
+    //地址列表页面
+    path: '/myAddressList',
+    name: 'MyAddressList',
+    component: () => import(/* webpackChunkName: "MyAddressList"*/ "../views/myAddressList/MyAddressList.vue"),
+  },
+  {
+    //新建地址页面
+    path: '/upsetAddress/:id?',
+    name: 'UpsetAddress',
+    component: () => import(/* webpackChunkName: "UpsetAddress"*/ "../views/upsetAddress/UpsetAddress.vue"),
+  },
+  {
     // 登录页面
     path: '/login',
     name: 'Login',

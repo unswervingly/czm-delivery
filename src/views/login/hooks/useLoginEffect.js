@@ -23,6 +23,7 @@ export const useLoginEffect = (changeShowToast) => {
 
                 if (result?.errno === 0) {
                     localStorage.isLogin = true;
+                    localStorage.removeItem("cartList");
                     router.push({ name: "Home" });
                 } else {
                     // alert("登陆失败");

@@ -9,20 +9,34 @@
 
     <div class="top__receiver">
       <div class="top__receiver__title">收货地址</div>
-      <div class="top__receiver__address">
-        福建省福州大学芙蓉楼10号楼216宿舍
+      <div v-if="address" @click="handleAddressClick">
+        <div class="top__receiver__address">
+          {{ currentAddress.city }}{{ currentAddress.department
+          }}{{ currentAddress.houseNumber }}
+        </div>
+
+        <div class="top__receiver__info">
+          <span class="top__receiver__info__name">{{
+            currentAddress.name
+          }}</span>
+          <span class="top__receiver__info__name">{{
+            currentAddress.phone
+          }}</span>
+        </div>
+        <div class="iconfont top__receiver__icon">&#xe601;</div>
       </div>
-      <div class="top__receiver__info">
-        <span class="top__receiver__info__name">陈（先生）</span>
-        <span class="top__receiver__info__name">18888888888</span>
+
+      <div v-else>
+        <div class="top__receiver__address">暂无可用地址</div>
       </div>
-      <div class="iconfont top__receiver__icon">&#xe601;</div>
     </div>
   </div>
 </template>
 
 <script>
 import { useRouter } from "vue-router";
+
+import { useCorrectAddress } from "./hooks/useCorrectAddress";
 
 export default {
   name: "ToArea",
@@ -32,8 +46,11 @@ export default {
       router.back();
     };
 
+    const { currentAddress } = useCorrectAddress();
+    console.log(currentAddress);
     return {
       handleBackClick,
+      currentAddress,
     };
   },
 };
@@ -51,7 +68,7 @@ export default {
 
   &__header {
     position: relative;
-    padding-top: 0.26rem;
+    padding-top: 0.2rem;
     line-height: 0.24rem;
     color: $bgColor;
     text-align: center;

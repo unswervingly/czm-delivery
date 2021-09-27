@@ -86,9 +86,8 @@ export default {
     margin: 0 0.4rem 0.16rem 0.4rem;
     padding: 0 0.16rem;
     background: #f9f9f9;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 6px;
-    border-radius: 6px;
+    border: 0.01rem solid rgba(0, 0, 0, 0.1);
+    border-radius: 0.06rem;
     &__content {
       line-height: 0.48rem;
       border: none;

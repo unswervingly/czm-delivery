@@ -48,7 +48,9 @@ export default createStore({
 
       // cartList: {}, 
       // 使用 localStorage 把存储的数据放到 cartList
-      cartList: getLocalCartList()
+      cartList: getLocalCartList(),
+
+      addressList: [],
     }
   },
   mutations: {
@@ -122,6 +124,11 @@ export default createStore({
       const { shopId } = payload;
       state.cartList[shopId].productList = {};
     },
+
+    // 改变addressLis数据
+    changeAddressList(state, payload) {
+      state.addressList.splice(0, state.addressList.length, ...payload)
+    }
   },
   actions: {
   },

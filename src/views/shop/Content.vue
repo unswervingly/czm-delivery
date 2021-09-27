@@ -32,7 +32,7 @@
 
           <div class="product__number">
             <span
-              class="product__number__minus"
+              class="product__number__minus iconfont"
               @click="
                 changeCartItem(
                   shopId,
@@ -42,12 +42,12 @@
                   shopName
                 )
               "
-              >-</span
+              >&#xe677;</span
             >
             <!-- {{ cartList?.[shopId]?.productList?.[productItem._id]?.count || 0 }} -->
             {{ getProductCount(shopId, productItem._id) }}
             <span
-              class="product__number__plus"
+              class="product__number__plus iconfont"
               @click="
                 changeCartItem(
                   shopId,
@@ -57,7 +57,7 @@
                   shopName
                 )
               "
-              >+</span
+              >&#xe653;</span
             >
           </div>
         </div>
@@ -137,7 +137,7 @@ export default {
   &__item {
     line-height: 0.4rem;
     text-align: center;
-    font-size: 14px;
+    font-size: .14rem;
     color: #333;
     &--active {
       background: $bgColor;
@@ -193,24 +193,17 @@ export default {
       position: absolute;
       right: 0;
       bottom: 0.12rem;
-      &__minus,
-      &__plus {
-        display: inline-block;
-        width: 0.2rem;
-        height: 0.2rem;
-        line-height: 0.16rem;
-        border-radius: 50%;
-        font-size: 0.2rem;
-        text-align: center;
-      }
+      line-height: 0.18rem;
       &__minus {
-        border: 0.01rem solid $medium-fontColor;
+        position: relative;
+        top: 0.01rem;
         color: $medium-fontColor;
         margin-right: 0.05rem;
       }
       &__plus {
-        background: $btn-bgColor;
-        color: $bgColor;
+        position: relative;
+        top: 0.01rem;
+        color: $btn-bgColor;
         margin-left: 0.05rem;
       }
     }

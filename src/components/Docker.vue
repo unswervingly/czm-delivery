@@ -25,7 +25,7 @@ export default {
       { icon: "&#xe603;", text: "首页", dockerTo: "/" },
       { icon: "&#xe65c;", text: "购物车", dockerTo: "CartList" },
       { icon: "&#xe612;", text: "订单", dockerTo: "OrderList" },
-      { icon: "&#xe609;", text: "我的", dockerTo: "Home" },
+      { icon: "&#xe609;", text: "我的", dockerTo: "PersonalInfo" },
     ];
 
     return {
